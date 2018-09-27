@@ -17,7 +17,9 @@ argvs = sys.argv
 if len(argvs) == 2:
   url = argvs[1]
 else:
+  print "usage:",argvs[0],"<URL>"
   url = "https://www.youtube.com/watch?v=aKX8uaoy9c8"
+  print "<URL> is set to", url
 
 try:
   videoPafy = pafy.new(url)
@@ -26,6 +28,7 @@ try:
 except Exception as e:
   print e
   print "invalud URL"
+  print "usage:",argvs[0],"<URL>"
   exit(-1)
 
 
@@ -33,18 +36,17 @@ except Exception as e:
 #for s in videoPafy.streams:
 #  print s
 
-print "-----------------------------------------------"
-print "title :", videoPafy.title
-print "viewcount :",videoPafy.viewcount, "autor :",videoPafy.author, "length :",videoPafy.length
-print "duration :",videoPafy.duration, "likes :",videoPafy.likes, "dislikes :", videoPafy.dislikes
-print "-----------------------------------------------"
-print "description :\n",videoPafy.description
-print "-----------------------------------------------"
+print "====================================================================="
+print "title:", videoPafy.title
+print "viewcount:",videoPafy.viewcount, ", autor:",videoPafy.author, ", length:",videoPafy.length
+print "duration:",videoPafy.duration, ", likes:",videoPafy.likes, ", dislikes:", videoPafy.dislikes
+print "---------------------------------------------------------------------"
+print "description:\n",videoPafy.description
+print "---------------------------------------------------------------------"
 fps = 24
 print "fps =", fps
-print "-----------------------------------------------"
+print "====================================================================="
 
-#cap = cv2.VideoCapture(0)
 
 r = rospy.Rate(fps)
 seq = 0
@@ -57,12 +59,9 @@ while not rospy.is_shutdown():
         break
 
     # Our operations on the frame come here
-  #  gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # Display the resulting frame
-#    cv2.imshow('frame',frame)
- #   cv2.imshow('frame',gray)
 
     seq += 1
     msg = Image()
@@ -93,16 +92,3 @@ cv2.destroyAllWindows()
 #
 # 2) Getting Started with Videos
 # https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html
-
-# autoware@autoware-pc:~/tool/youtube$ rosmsg show sensor_msgs/Image 
-# std_msgs/Header header
-#   uint32 seq
-#   time stamp
-#   string frame_id
-# uint32 height
-# uint32 width
-# string encoding
-# uint8 is_bigendian
-# uint32 step
-# uint8[] data
-
